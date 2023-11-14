@@ -111,4 +111,13 @@ public class Card {
 			return false;
 		}
 	}
+
+	/**
+	 * This function returns a String representation of the card.
+	 * @return String - the String representation of the card
+	 */
+	@Override
+	public String toString() {
+		return suit + value;
+	}
 }
