@@ -76,7 +76,7 @@ public class Player {
 	}
 	public int calculatedHand()
 	{
-		return hand.calculate(); 
+		return hand.getHandTotal(); 
 	}
 	
 	public Account getName()
