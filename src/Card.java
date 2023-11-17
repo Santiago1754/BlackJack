@@ -17,6 +17,9 @@
 public class Card {
 	private char suit;
 	private String value;
+	public static final char[] SUITS = {'C', 'D', 'H', 'S'};
+	public static final String[] VALUES = {"2", "3", "4", "5", "6", "7", "8", "9", "10",
+											"A", "J", "Q", "K"};
 	
 	/**
 	 * The default constructor for the Card class.
