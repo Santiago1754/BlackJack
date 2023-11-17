@@ -53,7 +53,7 @@ public class Deck {
     }
 
     /**
-     * @return the deck as a String, each card separated by a comma.
+     * @return the number of cards left in the deck followed by a dash and the cards left in the deck separated by commas.
      */
     @Override
     public String toString() {
