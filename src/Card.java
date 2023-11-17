@@ -39,12 +39,14 @@ public class Card {
 		if (isValidSuit(suit)) {
 			this.suit = suit;
 		} else {
+			this.suit = 'X';
 			System.out.println("ERROR: '" + Character.toString(suit) + "' is not a valid suit. Setting suit to 'X'.");
 		}
 		
 		if (isValidValue(value)) {
 			this.value = value;
 		} else {
+			this.value = "X";
 			System.out.println("ERROR: '" + value + "' is not a valid value. Setting value to 'X'.");
 		}
 	}
@@ -122,5 +124,19 @@ public class Card {
 	@Override
 	public String toString() {
 		return suit + value;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Card) {
+			Card card = (Card) obj;
+			if (this.suit == card.getSuit() && this.value.equals(card.getValue())) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 }
