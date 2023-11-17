@@ -27,6 +27,13 @@ public class Deck {
     }
 
     /**
+     * @return the number of cards currently in the deck
+     */
+    public int getCurrentDeckSize() {
+        return currentDeckSize;
+    }
+
+    /**
      * Shuffles all the cards in the deck.
      */
     public void shuffle() {

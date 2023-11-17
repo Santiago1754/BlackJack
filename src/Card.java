@@ -126,6 +126,11 @@ public class Card {
 		return suit + value;
 	}
 
+	/**
+	 * This function checks whether two cards are equal.
+	 * @param obj - the object to compare to
+	 * @return boolean - true if equal, false otherwise
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Card) {
