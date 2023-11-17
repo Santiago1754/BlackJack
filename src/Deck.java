@@ -1,3 +1,4 @@
+import java.util.Random;
 
 /**
  * Represents a deck of cards. Every deck has 52 cards.
@@ -5,6 +6,7 @@
  */
 public class Deck {
     private Card[] cards;
+    private int currentDeckSize;
 
     /**
      * Constructor for a deck of cards. Creates a deck of 52 cards.
@@ -19,7 +21,51 @@ public class Deck {
             for (String value : Card.VALUES) {
                 cards[index] = new Card(suit, value);
                 index++;
+                currentDeckSize++;
             }
         }
+    }
+
+    /**
+     * Shuffles all the cards in the deck.
+     */
+    public void shuffle() {
+        Random random = new Random();
+        for (int i = cards.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            Card temp = cards[i];
+            cards[i] = cards[j];
+            cards[j] = temp;
+        }
+    }
+
+
+    /**
+     * Deals a card from the deck.
+     * @return the card dealt from the deck
+     */
+    public Card deal() {
+        if (currentDeckSize == 0) {
+            return null;
+        }
+        currentDeckSize--;
+        return cards[currentDeckSize];
+    }
+
+    /**
+     * @return the deck as a String, each card separated by a comma.
+     */
+    @Override
+    public String toString() {
+        String result = Integer.toString(currentDeckSize) + "-";
+
+        for (int i = 0; i < currentDeckSize; i++) {
+            result += cards[i];
+            // Append a comma as long as it is not the last number
+            if (i != currentDeckSize - 1) {
+                result += ",";
+            }
+        }
+        return result;
     }
 }
