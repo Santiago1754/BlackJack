@@ -17,6 +17,9 @@
 public class Card {
 	private char suit;
 	private String value;
+	public static final char[] SUITS = {'C', 'D', 'H', 'S'};
+	public static final String[] VALUES = {"2", "3", "4", "5", "6", "7", "8", "9", "10",
+											"A", "J", "Q", "K"};
 	
 	/**
 	 * The default constructor for the Card class.
@@ -36,12 +39,14 @@ public class Card {
 		if (isValidSuit(suit)) {
 			this.suit = suit;
 		} else {
+			this.suit = 'X';
 			System.out.println("ERROR: '" + Character.toString(suit) + "' is not a valid suit. Setting suit to 'X'.");
 		}
 		
 		if (isValidValue(value)) {
 			this.value = value;
 		} else {
+			this.value = "X";
 			System.out.println("ERROR: '" + value + "' is not a valid value. Setting value to 'X'.");
 		}
 	}
@@ -119,5 +124,24 @@ public class Card {
 	@Override
 	public String toString() {
 		return suit + value;
+	}
+
+	/**
+	 * This function checks whether two cards are equal.
+	 * @param obj - the object to compare to
+	 * @return boolean - true if equal, false otherwise
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Card) {
+			Card card = (Card) obj;
+			if (this.suit == card.getSuit() && this.value.equals(card.getValue())) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 }
