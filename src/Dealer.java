@@ -1,22 +1,54 @@
-
 public class Dealer 
 {
-	
-	
-	private Account account; 
-	private Funds funds; 
-	private Score score; 
-	private Hand Card[]; 
+	private Hand hand; 
 	
 	public Dealer()
 	{
-		// constructor of dealer
+		hand = new Hand(); 
 	}
 	
-	public void takeAction(String action)
+
+	// check if the dealer hit blackjack 
+
+	public boolean isBlackJack()
 	{
-		// what is this suppose to do ? 
+		if (hand.getHandTotal() == 21)
+		{
+			return true; 
+		}
+		else {
+			return false; 
+		}
+	}
+
+	// adds a card to the dealer's hand 
+
+	public void addCard(Card card)
+	{
+		hand.addCardToHand(card); 
+	}
+
+	// calculates the hand of the dealer 
+
+	public int calculateHand() 
+	{
+		return hand.getHandTotal(); 
 	}
 	
+	// Clears the dealer's hand
+
+	public void clearHand() {
+		hand.clearHand; 
+	}
+
+
+	public void dealerPlays() 
+	{
+		while (hand.getHandTotal() <= 16)
+		{
+			hand.addCard()
+		}
+	}
+
 
 }
