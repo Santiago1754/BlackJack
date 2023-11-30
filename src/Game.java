@@ -3,10 +3,10 @@ public class Game {
     private Player[] players;
     private Dealer dealer;
     private Scoreboard scoreboard;
-    private Decks[] decks;
+    private Deck[] decks;
 
 
-    public Game(String id, Player[] players, Dealer dealer, Scoreboard scoreboard, Decks[] decks) {
+    public Game(String id, Player[] players, Dealer dealer, Scoreboard scoreboard, Deck[] decks) {
         this.id = id;
         this.players = players;
         this.dealer = dealer;
@@ -30,7 +30,7 @@ public class Game {
         return scoreboard;
     }
 
-    public Decks[] getDecks() {
+    public Deck[] getDecks() {
         return decks;
     }
 
@@ -50,7 +50,7 @@ public class Game {
         this.scoreboard = scoreboard;
     }
 
-    public void setDecks(Decks[] decks) {
+    public void setDecks(Deck[] decks) {
         this.decks = decks;
     }
 
