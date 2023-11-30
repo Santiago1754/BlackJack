@@ -1,42 +1,74 @@
 import java.io.*;
-import java.net.*;
+import java.net.Socket;
 
 public class Client {
+
+    private static final String SERVER_ADDRESS = "localhost";
+    private static final int SERVER_PORT = 5000;
+
     public static void main(String[] args) {
         try {
-            // Create a socket and connect to the server
-            Socket socket = new Socket("localhost", 5000);
+            Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
 
-            // Create input and output streams for communication
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            // Create separate threads for reading and writing to the server
+            Thread readerThread = new Thread(new ServerReader(socket));
+            Thread writerThread = new Thread(new ServerWriter(socket));
 
-            // Create a thread to read messages from the server
-            Thread serverReader = new Thread(() -> {
-                try {
-                    String serverMessage;
-                    while ((serverMessage = in.readLine()) != null) {
-                        System.out.println("Server: " + serverMessage);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            serverReader.start();
+            readerThread.start();
+            writerThread.start();
 
-            // Read messages from the console and send them to the server
-            BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
-            String clientMessage;
-            while ((clientMessage = consoleInput.readLine()) != null) {
-                out.println(clientMessage);
-            }
-
-            // Close the connections
-            in.close();
-            out.close();
-            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static class ServerReader implements Runnable {
+        private final Socket socket;
+
+        public ServerReader(Socket socket) {
+            this.socket = socket;
+        }
+
+        @Override
+        public void run() {
+            try {
+                // Your server reading logic here
+                InputStream inputStream = socket.getInputStream();
+                // Read from inputStream
+
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    String data = new String(buffer, 0, bytesRead);
+                    // Process the received data
+                    System.out.println("Received data: " + data);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static class ServerWriter implements Runnable {
+        private final Socket socket;
+
+        public ServerWriter(Socket socket) {
+            this.socket = socket;
+        }
+
+        @Override
+        public void run() {
+            try {
+                // Your server writing logic here
+                OutputStream outputStream = socket.getOutputStream();
+                // Write to outputStream
+                
+                String dataToWrite = "Your data to write";
+                outputStream.write(dataToWrite.getBytes());
+                outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
