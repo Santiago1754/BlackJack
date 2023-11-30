@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -8,6 +9,10 @@ public class Server {
 
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+            // Get IP address of the server
+            InetAddress serverAddress = InetAddress.getLocalHost();
+            String serverIP = serverAddress.getHostAddress().trim();
+            System.out.println("Server IP: " + serverIP);
             System.out.println("Blackjack Server is running...");
 
             while (true) {

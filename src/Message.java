@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /**
  * Message class for sending data between the server and client.
  * 
@@ -16,7 +18,7 @@
  * This data depends on the type of message, as well as the status of the
  * message.
  */
-public class Message {
+public class Message implements Serializable {
     private String type;
     private String status;
     private String data;
