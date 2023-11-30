@@ -1,74 +1,31 @@
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
+    public static void main(String[] args) throws IOException {
+        final int PORT = 5000;
+        // Ask the user for IP to connect to
+        System.out.print("Enter IP address to connect to: ");
+        Scanner scanner = new Scanner(System.in);
+        String serverIP = scanner.nextLine();
 
-    private static final String SERVER_ADDRESS = "localhost";
-    private static final int SERVER_PORT = 5000;
+        // Create a socket to connect to the server
+        Socket socket = new Socket(serverIP, PORT);
+        System.out.println("Connected to server: " + serverIP + ":" + PORT);
 
-    public static void main(String[] args) {
-        try {
-            Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+        // Get input and output streams
+        InputStream inputStream = socket.getInputStream();
+        OutputStream outputStream = socket.getOutputStream();
 
-            // Create separate threads for reading and writing to the server
-            Thread readerThread = new Thread(new ServerReader(socket));
-            Thread writerThread = new Thread(new ServerWriter(socket));
+        ObjectOutputStream objectOut = new ObjectOutputStream(outputStream);
 
-            readerThread.start();
-            writerThread.start();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // TODO - TEMPORARY HANDLING OF CLIENT MESSAGE
+        // TODO - REPLACE WITH GAME LOGIC
+        objectOut.writeObject(new Message("HELLO", "SENT", "Hello from client!"));
     }
 
-    private static class ServerReader implements Runnable {
-        private final Socket socket;
-
-        public ServerReader(Socket socket) {
-            this.socket = socket;
-        }
-
-        @Override
-        public void run() {
-            try {
-                // Your server reading logic here
-                InputStream inputStream = socket.getInputStream();
-                // Read from inputStream
-
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    String data = new String(buffer, 0, bytesRead);
-                    // Process the received data
-                    System.out.println("Received data: " + data);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private static class ServerWriter implements Runnable {
-        private final Socket socket;
-
-        public ServerWriter(Socket socket) {
-            this.socket = socket;
-        }
-
-        @Override
-        public void run() {
-            try {
-                // Your server writing logic here
-                OutputStream outputStream = socket.getOutputStream();
-                // Write to outputStream
-                
-                String dataToWrite = "Your data to write";
-                outputStream.write(dataToWrite.getBytes());
-                outputStream.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
