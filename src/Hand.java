@@ -35,34 +35,37 @@ public class Hand {
 
     // Add a card to the hand and update the hand's total value
     public void addCardToHand(Card card) {
-        if (card.getCardValue() == 1 && handTotal < 11) {
-            // If the card is an Ace and its value as 11 won't bust, use 11
-            handTotal += 11;
-        } else if (card.getCardValue() > 10) {
-            // If the card is a face card, use its value as 10
-            handTotal += 10;
-        } else {
-            // Otherwise, use the numeric value of the card
-            handTotal += card.getCardValue();
-        }
+      if (card.getValue().equals("1") && handTotal < 11) {
+        // If the card is an Ace and its value as 11 won't bust, use 11
+        handTotal += 11;
+      } else if (Integer.parseInt(card.getValue()) > 10) {
+        // If the card is a face card, use its value as 10
+        handTotal += 10;
+      } else {
+        // Otherwise, use the numeric value of the card
+        handTotal += Integer.parseInt(card.getValue());
+      }
 
-        // Add the card to the hand
-        cards.add(card);
+      // Add the card to the hand
+      cards.add(card);
     }
 
-    // Access a card at a specific index in the hand
+    // Clear the hand of any cards
+    public void clearHand() {
+      cards.clear();
+      handTotal = 0;
+    }
+
     public Card accessCardAtIndex(int index) {
-        return cards.get(index);
+      return cards.get(index);
     }
 
     // Set the hand equal to another hand by copying its cards
     public void setEqualTo(Hand otherHand) {
-        // Clear the current cards in the hand
-        cards.clear();
 
-        // Copy cards from the other hand to this hand
-        for (int i = 0; i < otherHand.getNumCards(); i++) {
-            addCardToHand(otherHand.accessCardAtIndex(i));
-        }
+      // Copy cards from the other hand to this hand
+      for (int i = 0; i < otherHand.getNumCards(); i++) {
+        addCardToHand(otherHand.accessCardAtIndex(i));
+      }
     }
-}
+  }
