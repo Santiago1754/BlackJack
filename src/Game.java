@@ -5,13 +5,21 @@ public class Game {
     private Scoreboard scoreboard;
     private Deck[] decks;
 
-
     public Game(String id, Player[] players, Dealer dealer, Scoreboard scoreboard, Deck[] decks) {
         this.id = id;
         this.players = players;
         this.dealer = dealer;
         this.scoreboard = scoreboard;
         this.decks = decks;
+        this.dealer = dealer;
+    }
+
+    public boolean hasDealer() {
+        if (dealer == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String getId() {
