@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -43,16 +44,19 @@ public class Server {
             try {
                 InputStream inputStream = clientSocket.getInputStream();
                 OutputStream outputStream = clientSocket.getOutputStream();
-
+                boolean connected = true;
                 ObjectInputStream objectIn = new ObjectInputStream(inputStream);
-                // TODO - TEMPORARY HANDLING OF CLIENT MESSAGE
-                // TODO - REPLACE WITH GAME LOGIC
-                try {
-                    Message message = (Message) objectIn.readObject();
-                    System.out.println("Message received from client: " + message);
-                } catch (ClassNotFoundException e) {
-                    System.out.println("Error reading message from client");
-                    e.printStackTrace();
+                ObjectOutputStream objectOut = new ObjectOutputStream(outputStream);
+
+                while (connected) {
+                    try {
+                        Message message = (Message) objectIn.readObject();
+                        System.out.println("Message received from client: " + message);
+                        objectOut.writeObject(message);
+                    } catch (ClassNotFoundException e) {
+                        System.out.println("Error reading message from client");
+                        e.printStackTrace();
+                    }
                 }
 
             } catch (IOException e) {
