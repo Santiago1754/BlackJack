@@ -15,6 +15,8 @@ import java.util.concurrent.Executors;
 
 public class ObjectServer {
 
+	String name; 
+
     public static void main(String[] argv) throws Exception {
        //  ServerSocket s = new ServerSocket(5000);
 		
@@ -67,6 +69,13 @@ public class ObjectServer {
 					{
 						Message updated = createAcc(received); 
 						oos.writeObject(updated); 
+						oos.flush();
+					}
+
+					if (received.getType().contains("ROLE"))
+					{
+						Message updated = rolePlay(received); 
+						oos.writeObject(updated);
 						oos.flush();
 					}
 					
@@ -132,7 +141,8 @@ public class ObjectServer {
 		
 		String[] combo = m.getData().split(" ");
 		String user = combo[0];
-		String password = combo[1];		
+		String password = combo[1];	
+		name = user.toUpperCase(); 	
 		String readData;
 		String filename = "userList.txt"; 
 		
@@ -173,6 +183,20 @@ public class ObjectServer {
 			e1.printStackTrace();
 		}
 		
+		return m; 
+	}
+	private static Message rolePlay(Message m) {
+	
+		if (m.getStatus().equals("DEALER"))
+		{
+			m.setData(name);
+			return m; 
+		}
+		if (m.getStatus().equals("PLAYER"))
+		{
+			m.setData(name);
+			return m; 
+		}
 		return m; 
 	}
 }

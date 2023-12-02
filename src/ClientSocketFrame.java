@@ -150,7 +150,7 @@ public class ClientSocketFrame extends JFrame implements ActionListener  {
 	        	playerButton.hide();
 	        	dealerButton.hide();
 	        	roleChose.setBounds(100, 20, 165, 25);
-	        	roleChose.setText("I AM A DEALER");
+	        	// roleChose.setText("I AM A DEALER");
 				dealerPlays(s); 
 	        }
 	        else if (e.getSource().equals(playerButton))
@@ -304,9 +304,22 @@ public class ClientSocketFrame extends JFrame implements ActionListener  {
     	
     }
     
-    public void dealerPlays(Socket socket) 
+    public void dealerPlays(Socket s) throws IOException, ClassNotFoundException 
     {
-		Game gameTest1 = new Game(); 
+		// Game gameTest1 = new Game(); 
+    	ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+
+    	Message message = new Message("ROLE", "DEALER", "");
+    	Message messageFromServer; 
+  
+    	oos.writeObject(message); 
+		oos.flush();
+		
+		messageFromServer = (Message)ois.readObject(); 
+		
+		role.hide();
+		roleChose.setText(messageFromServer.getData() + " IS A " + messageFromServer.getStatus());
 		
 	}
     
