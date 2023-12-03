@@ -23,6 +23,8 @@ public class ClientSocketFrame extends JFrame implements ActionListener  {
     JPasswordField passTextField;
     JTextField txtMark;
     JButton loginButton, createAccountButton, playerButton, dealerButton;
+
+	Account account = new Account(); 
     
    
    
@@ -161,7 +163,7 @@ public class ClientSocketFrame extends JFrame implements ActionListener  {
 	        	roleChose.setText("I AM A PLAYER");
 				playerPlays(s); 
 	        }
-		} catch (IOException e1) 
+		} catch (IOException | ClassNotFoundException e1) 
 		
 		{
 			e1.printStackTrace();
@@ -185,11 +187,11 @@ public class ClientSocketFrame extends JFrame implements ActionListener  {
 			String combo = userName + " " + passWord; 
 			
 			Message m1, m2; 
-			m1 = new Message("login", "", combo); 
+			m1 = new Message("LOGIN", "", combo); 
 			
 			while (true)
 			{
-				if (m1.getType().contains("login"))
+				if (m1.getType().contains("LOGIN"))
 				{
 					oos.writeObject(m1); 
 					oos.flush(); 
@@ -240,7 +242,7 @@ public class ClientSocketFrame extends JFrame implements ActionListener  {
 			String combo = userName + " " + passWord; 
 			
 			Message m1, m2; 
-			m1 = new Message("create", "", combo); 
+			m1 = new Message("CREATE", "", combo); 
 			
 			
 			oos.writeObject(m1); 
@@ -323,9 +325,24 @@ public class ClientSocketFrame extends JFrame implements ActionListener  {
 		
 	}
     
-    public void playerPlays(Socket s) {
+    public void playerPlays(Socket s) throws IOException, ClassNotFoundException{
 		
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+
+    	Message message = new Message("ROLE", "PLAYER", "");
+    	Message messageFromServer; 
+  
+    	oos.writeObject(message); 
+		oos.flush();
 		
+		messageFromServer = (Message)ois.readObject(); 
+		
+		account.setRole(messageFromServer.getStatus());
+		role.hide();
+		roleChose.setText(account.getName() + " IS A " + account.getRole());
+		
+
 	}
 
     

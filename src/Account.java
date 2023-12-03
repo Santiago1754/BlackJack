@@ -5,10 +5,10 @@ public class Account {
 	private String pass; 
 	private String role; 
 	
-	public Account (String nom, String pw) {
+	public Account () {
 		
-		this.userID = nom; 
-		this.pass = pw; 
+		// this.userID = nom; 
+		// this.pass = pw; 
 	}
 	public String getName() 
 	{
@@ -24,4 +24,7 @@ public class Account {
 	{
 		return this.role; 
 	}	
+	public void setName(String id)
+	{
+		this.userID = id; 
 }

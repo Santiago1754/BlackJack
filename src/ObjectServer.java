@@ -15,7 +15,9 @@ import java.util.concurrent.Executors;
 
 public class ObjectServer {
 
-	String name; 
+	static String name; 
+	static Game game = new Game(null, null, null, null, null)
+	static Account account = new Account(); 
 
     public static void main(String[] argv) throws Exception {
        //  ServerSocket s = new ServerSocket(5000);
@@ -54,7 +56,7 @@ public class ObjectServer {
 				while (true)
 				{
 					Message received = (Message) ois.readObject(); 
-					if (received.getType().contains("login"))
+					if (received.getType().contains("LOGIN"))
 					{
 						Message updated = authenticate(received); 
 						
@@ -65,7 +67,7 @@ public class ObjectServer {
 					
 					
 					
-					if (received.getType().contains("create"))
+					if (received.getType().contains("REGISTER"))
 					{
 						Message updated = createAcc(received); 
 						oos.writeObject(updated); 
@@ -142,7 +144,10 @@ public class ObjectServer {
 		String[] combo = m.getData().split(" ");
 		String user = combo[0];
 		String password = combo[1];	
-		name = user.toUpperCase(); 	
+		
+		name = user.toUpperCase(); 
+		account.setRole(name);	
+
 		String readData;
 		String filename = "userList.txt"; 
 		
@@ -187,13 +192,29 @@ public class ObjectServer {
 	}
 	private static Message rolePlay(Message m) {
 	
+		boolean containsDealer = game.hasDealer(); 
+		
 		if (m.getStatus().equals("DEALER"))
 		{
-			m.setData(name);
-			return m; 
+			if (containsDealer == false)
+			{
+				m.setData(name);
+				account.setRole(m.getStatus());
+				return m; 
+			}
+			else {
+				m.setType("BAD");
+				m.setStatus("PLAYER");
+				m.setData(name);
+				account.setRole(m.getStatus());
+				return m; 
+				
+			}
 		}
 		if (m.getStatus().equals("PLAYER"))
 		{
+			game.getPlayers(); 
+			
 			m.setData(name);
 			return m; 
 		}
