@@ -96,7 +96,7 @@ public class Client {
             }
         });
 
-        socket.close();
+        //socket.close();
     }
 
     /**

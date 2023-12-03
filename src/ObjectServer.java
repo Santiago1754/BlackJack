@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 public class ObjectServer {
 
 	static String name; 
-	static Game game = new Game(null, null, null, null, null)
+	static Game game = new Game(null, null, null, null, null);
 	static Account account = new Account(); 
 
     public static void main(String[] argv) throws Exception {
