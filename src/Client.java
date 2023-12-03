@@ -174,7 +174,7 @@ public class Client {
 
                 // Check if the login was successful
                 if (response.getType().equals("DEALER") && response.getStatus().equals("SUCCESS")) {
-                    JOptionPane.showMessageDialog(mainMenuFrame, "Starting as dealer...");
+                    JOptionPane.showMessageDialog(mainMenuFrame, "Joining as dealer...");
                     mainMenuFrame.setVisible(false);
                     // try {
                     //     // TODO: Run dealer
@@ -184,7 +184,7 @@ public class Client {
                     //     e1.printStackTrace();
                     // }
                 } else {
-                    JOptionPane.showMessageDialog(mainMenuFrame, "Dealer failed");
+                    JOptionPane.showMessageDialog(mainMenuFrame, "Joining as dealer failed");
                 }
 
             }
@@ -202,7 +202,7 @@ public class Client {
 
                 // Check if the login was successful
                 if (response.getType().equals("PLAYER") && response.getStatus().equals("SUCCESS")) {
-                    JOptionPane.showMessageDialog(mainMenuFrame, "Starting as player...");
+                    JOptionPane.showMessageDialog(mainMenuFrame, "Joining as player...");
                     mainMenuFrame.setVisible(false);
                     // try {
                     //     // TODO: Run dealer
@@ -212,7 +212,7 @@ public class Client {
                     //     e1.printStackTrace();
                     // }
                 } else {
-                    JOptionPane.showMessageDialog(mainMenuFrame, "Player failed");
+                    JOptionPane.showMessageDialog(mainMenuFrame, "Joining as player failed");
                 }
 
             }
