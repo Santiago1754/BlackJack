@@ -13,6 +13,12 @@ import java.util.Scanner;
 public class Server {
 
     private static final int PORT = 5000;
+    private static Game[] games = new Game[100];
+    private static int numGames = 0;
+    private static Account[] accounts = new Account[100];
+    private static int numAccounts = 0;
+    private static Socket[] sockets = new Socket[100];
+    private static int numSockets = 0;
 
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -25,6 +31,7 @@ public class Server {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected: " + clientSocket.getInetAddress().getHostAddress());
+                addSocket(clientSocket);
 
                 // Create a new thread to handle the client
                 Thread clientThread = new Thread(new ClientHandler(clientSocket));
@@ -35,17 +42,90 @@ public class Server {
         }
     }
 
+    /**
+     * Add a socket to the list of sockets
+     * @param socket
+     */
+    private static void addSocket(Socket socket) {
+        sockets[numSockets] = socket;
+        numSockets++;
+    }
+
+    /**
+     * Remove a socket from the list of sockets
+     * @param socket
+     */
+    private static void removeSocket(Socket socket) {
+        for (int i = 0; i < numSockets; i++) {
+            if (sockets[i] == socket) {
+                sockets[i] = sockets[numSockets - 1];
+                sockets[numSockets - 1] = null;
+                numSockets--;
+                break;
+            }
+        }
+    }
+
+    /**
+     * Add an account to the list of accounts
+     * @param account
+     */
+    private static void addAccount(Account account) {
+        accounts[numAccounts] = account;
+        numAccounts++;
+    }
+
+    /**
+     * Remove an account from the list of accounts
+     * @param account
+     */
+    private static void removeAccount(Account account) {
+        for (int i = 0; i < numAccounts; i++) {
+            if (accounts[i] == account) {
+                accounts[i] = accounts[numAccounts - 1];
+                accounts[numAccounts - 1] = null;
+                numAccounts--;
+                break;
+            }
+        }
+    }
+
+    /**
+     * Add a game to the list of games
+     * @param game
+     */
+    private static void addGame(Game game) {
+        games[numGames] = game;
+        numGames++;
+    }
+
+    /**
+     * Remove a game from the list of games
+     * @param game
+     */
+    private static void removeGame(Game game) {
+        for (int i = 0; i < numGames; i++) {
+            if (games[i] == game) {
+                games[i] = games[numGames - 1];
+                games[numGames - 1] = null;
+                numGames--;
+                break;
+            }
+        }
+    }
+
     private static class ClientHandler implements Runnable {
         private final Socket clientSocket;
+        private Account account;
 
         public ClientHandler(Socket clientSocket) {
             this.clientSocket = clientSocket;
+            this.account = null;
         }
 
         @Override
         public void run() {
             try {
-                Account account = null;
 
                 // Get input and output streams
                 InputStream inputStream = clientSocket.getInputStream();
@@ -153,6 +233,8 @@ public class Server {
             } finally {
                 try {
                     clientSocket.close();
+                    removeSocket(clientSocket);
+                    removeAccount(account);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
