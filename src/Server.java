@@ -45,7 +45,7 @@ public class Server {
         @Override
         public void run() {
             try {
-                Account account;
+                Account account = null;
 
                 // Get input and output streams
                 InputStream inputStream = clientSocket.getInputStream();
@@ -126,6 +126,14 @@ public class Server {
                             }
 
                             loginScanner.close();
+                        } else if (message.getType().equals("JOIN") && message.getStatus().equals("REQUEST")
+                                && message.getData().equals("DEALER")) { // Handle dealer message
+                            // TODO: FINISH DEALER HANDLING
+                            account.setDealer(new Dealer());
+                        } else if (message.getType().equals("JOIN") && message.getStatus().equals("REQUEST")
+                                && message.getData().equals("PLAYER")) { // Handle player message
+                            // TODO: FINISH PLAYER HANDLING
+                            account.setPlayer(new Player());
                         } else { // Return error message if the message type is not recognized
                             System.out.println("Received " + message.getType() + " message from client");
                             System.out.println("Client IP: " + clientSocket.getInetAddress().getHostAddress());

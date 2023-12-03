@@ -165,7 +165,7 @@ public class Client {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message response = null;
-                Message message = new Message("DEALER", "SENT", username);
+                Message message = new Message("JOIN", "REQUEST", "DEALER");
                 try {
                     response = sendMessage(message);
                 } catch (ClassNotFoundException | IOException e1) {
@@ -173,7 +173,7 @@ public class Client {
                 }
 
                 // Check if the login was successful
-                if (response.getType().equals("DEALER") && response.getStatus().equals("SUCCESS")) {
+                if (response.getType().equals("JOIN") && response.getStatus().equals("SUCCESS")) {
                     JOptionPane.showMessageDialog(mainMenuFrame, "Joining as dealer...");
                     mainMenuFrame.setVisible(false);
                     // try {
@@ -193,7 +193,7 @@ public class Client {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message response = null;
-                Message message = new Message("PLAYER", "SENT", username);
+                Message message = new Message("JOIN", "REQUEST", "PLAYER");
                 try {
                     response = sendMessage(message);
                 } catch (ClassNotFoundException | IOException e1) {
