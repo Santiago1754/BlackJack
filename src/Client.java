@@ -136,7 +136,87 @@ public class Client {
     }
 
     private static void runMainMenu(Socket socket, String username) throws IOException {
-        System.out.println("TEST");
-        socket.close();
+        Account account = new Account(username);
+        JFrame mainMenuFrame = new JFrame("BLACKJACK MAIN MENU");
+        mainMenuFrame.setSize(300, 300);
+        mainMenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Add a panel to the frame
+        JPanel mainMenuPanel = new JPanel();
+        mainMenuFrame.add(mainMenuPanel);
+
+        // The main menushows the logged in username, and buttons to play as the dealer or player
+        mainMenuPanel.setLayout(null);
+        JLabel userLabel = new JLabel("Logged in as: " + username);
+        userLabel.setBounds(10, 20, 200, 25);
+        mainMenuPanel.add(userLabel);
+        JButton dealerButton = new JButton("DEALER");
+        dealerButton.setBounds(10, 50, 80, 25);
+        mainMenuPanel.add(dealerButton);
+        JButton playerButton = new JButton("PLAYER");
+        playerButton.setBounds(100, 50, 100, 25);
+        mainMenuPanel.add(playerButton);
+
+        // Make frame visible
+        mainMenuFrame.setVisible(true);
+
+        // Add action listeners to the buttons
+        dealerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message response = null;
+                Message message = new Message("DEALER", "SENT", username);
+                try {
+                    response = sendMessage(message);
+                } catch (ClassNotFoundException | IOException e1) {
+                    e1.printStackTrace();
+                }
+
+                // Check if the login was successful
+                if (response.getType().equals("DEALER") && response.getStatus().equals("SUCCESS")) {
+                    JOptionPane.showMessageDialog(mainMenuFrame, "Starting as dealer...");
+                    mainMenuFrame.setVisible(false);
+                    // try {
+                    //     // TODO: Run dealer
+                    // } catch (IOException e1) {
+                    //     // Show error popup
+                    //     JOptionPane.showMessageDialog(mainMenuFrame, "Error running dealer");
+                    //     e1.printStackTrace();
+                    // }
+                } else {
+                    JOptionPane.showMessageDialog(mainMenuFrame, "Dealer failed");
+                }
+
+            }
+        });
+        playerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message response = null;
+                Message message = new Message("PLAYER", "SENT", username);
+                try {
+                    response = sendMessage(message);
+                } catch (ClassNotFoundException | IOException e1) {
+                    e1.printStackTrace();
+                }
+
+                // Check if the login was successful
+                if (response.getType().equals("PLAYER") && response.getStatus().equals("SUCCESS")) {
+                    JOptionPane.showMessageDialog(mainMenuFrame, "Starting as player...");
+                    mainMenuFrame.setVisible(false);
+                    // try {
+                    //     // TODO: Run dealer
+                    // } catch (IOException e1) {
+                    //     // Show error popup
+                    //     JOptionPane.showMessageDialog(mainMenuFrame, "Error running player");
+                    //     e1.printStackTrace();
+                    // }
+                } else {
+                    JOptionPane.showMessageDialog(mainMenuFrame, "Player failed");
+                }
+
+            }
+        });
+        
     }
 }

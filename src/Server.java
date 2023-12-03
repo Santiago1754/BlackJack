@@ -45,6 +45,8 @@ public class Server {
         @Override
         public void run() {
             try {
+                Account account;
+
                 // Get input and output streams
                 InputStream inputStream = clientSocket.getInputStream();
                 OutputStream outputStream = clientSocket.getOutputStream();
@@ -59,6 +61,7 @@ public class Server {
                         // Handle login message
                         if (message.getType().equals("LOGIN")) {
                             System.out.println("Received LOGIN message from client");
+                            System.out.println("Client IP: " + clientSocket.getInetAddress().getHostAddress());
                             File loginFile = new File("userList.txt");
                             if (!loginFile.exists()) {
                                 loginFile.createNewFile();
@@ -74,6 +77,8 @@ public class Server {
                                     Message response = new Message("LOGIN", "SUCCESS", username);
                                     objectOut.writeObject(response);
                                     objectOut.flush();
+                                    // Create a new Account object for the client
+                                    account = new Account(username);
                                     break;
                                 }
                             }
@@ -86,6 +91,7 @@ public class Server {
                             loginScanner.close();
                         } else if (message.getType().equals("REGISTER")) {
                             System.out.println("Received REGISTER message from client");
+                            System.out.println("Client IP: " + clientSocket.getInetAddress().getHostAddress());
                             File loginFile = new File("userList.txt");
                             if (!loginFile.exists()) {
                                 loginFile.createNewFile();
@@ -120,6 +126,12 @@ public class Server {
                             }
 
                             loginScanner.close();
+                        } else { // Return error message if the message type is not recognized
+                            System.out.println("Received " + message.getType() + " message from client");
+                            System.out.println("Client IP: " + clientSocket.getInetAddress().getHostAddress());
+                            Message response = new Message("ERROR", "ERROR", message.getData());
+                            objectOut.writeObject(response);
+                            objectOut.flush();
                         }
                     } catch (ClassNotFoundException e) {
                         System.out.println("Error reading message from client");
