@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class Client {
+
+    private static ObjectOutputStream objectOut;
+    private static ObjectInputStream objectIn;
     public static void main(String[] args) throws IOException {
         final int PORT = 5000;
         String serverIP = "localhost";
@@ -21,6 +24,10 @@ public class Client {
         // Get input and output streams
         InputStream inputStream = socket.getInputStream();
         OutputStream outputStream = socket.getOutputStream();
+
+        // Create object streams
+        objectOut = new ObjectOutputStream(outputStream);
+        objectIn = new ObjectInputStream(inputStream);
 
         // Show the login window
         JFrame loginFrame = new JFrame("BLACKJACK LOGIN");
@@ -66,11 +73,25 @@ public class Client {
                 String password = passText.getText();
                 Message message = new Message("LOGIN", "SENT", username + "\n" + password);
                 try {
-                    response = sendMessage(inputStream, outputStream, message);
+                    response = sendMessage(message);
                 } catch (ClassNotFoundException | IOException e1) {
                     e1.printStackTrace();
                 }
-                System.out.println(response);
+
+                // Check if the login was successful
+                if (response.getType().equals("LOGIN") && response.getStatus().equals("SUCCESS")) {
+                    JOptionPane.showMessageDialog(loginFrame, "Logging in...");
+                    loginFrame.setVisible(false);
+                    try {
+                        runMainMenu(socket, username);
+                    } catch (IOException e1) {
+                        // Show error popup
+                        JOptionPane.showMessageDialog(loginFrame, "Error running main menu");
+                        e1.printStackTrace();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(loginFrame, "Login failed");
+                }
 
             }
         });
@@ -82,7 +103,7 @@ public class Client {
                 String password = passText.getText();
                 Message message = new Message("REGISTER", "SENT", username + "\n" + password);
                 try {
-                    response = sendMessage(inputStream, outputStream, message);
+                    response = sendMessage(message);
                 } catch (ClassNotFoundException | IOException e1) {
                     e1.printStackTrace();
                 }
@@ -107,16 +128,15 @@ public class Client {
      * @param message Message to send
      * @return Response from server
      */
-    private static Message sendMessage(InputStream in, OutputStream out, Message message)
+    private static Message sendMessage(Message message)
             throws IOException, ClassNotFoundException {
-        ObjectOutputStream objectOut = new ObjectOutputStream(out);
         objectOut.writeObject(message);
         objectOut.flush();
-        ObjectInputStream objectIn = new ObjectInputStream(in);
         return (Message) objectIn.readObject();
     }
 
-    private static void runMainMenu(InputStream inputStream, OutputStream outputStream) {
+    private static void runMainMenu(Socket socket, String username) throws IOException {
         System.out.println("TEST");
+        socket.close();
     }
 }
