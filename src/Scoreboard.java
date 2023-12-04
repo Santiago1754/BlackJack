@@ -1,61 +1,102 @@
+
+import java.util.Arrays;
+
+/**
+ * Represents a scoreboard for tracking player scores in a game.
+ */
 public class Scoreboard {
+
     private Score[] playerScores;
 
+    /**
+     * Constructs a scoreboard with initial player scores.
+     *
+     * @param playerScores The initial array of player scores.
+     */
     public Scoreboard(Score[] playerScores) {
         this.playerScores = playerScores;
     }
 
+    /**
+     * Gets the score of a specific player.
+     *
+     * @param playerID The identifier of the player.
+     * @return The score of the specified player.
+     */
     public Score getPlayerScores(int playerID) {
         return playerScores[playerID];
     }
 
+    /**
+     * Sets the scores of all players in the scoreboard.
+     *
+     * @param playerScores The array of player scores.
+     */
     public void setPlayerScores(Score[] playerScores) {
         this.playerScores = playerScores;
     }
 
+    /**
+     * Updates the scoreboard based on game events.
+     * TODO: Add implementation details.
+     */
     public void updateScoreboard() {
-        
+        // TODO: Implement scoreboard update logic
     }
 
+    /**
+     * Displays the current scoreboard.
+     * TODO: Add implementation details.
+     */
     public void displayScoreboard() {
-        
+        // TODO: Implement scoreboard display logic
     }
 
-public void addPlayerScore(Score score) {
-    // Add a new player score to the scoreboard
-    Score[] newPlayerScores = new Score[playerScores.length + 1];
-    for (int i = 0; i < playerScores.length; i++) {
-        newPlayerScores[i] = playerScores[i];
+    /**
+     * Adds a new player score to the scoreboard.
+     *
+     * @param score The score of the new player.
+     */
+    public void addPlayerScore(Score score) {
+        Score[] newPlayerScores = Arrays.copyOf(playerScores, playerScores.length + 1);
+        newPlayerScores[playerScores.length] = score;
+        playerScores = newPlayerScores;
     }
-    newPlayerScores[playerScores.length] = score;
-    playerScores = newPlayerScores;
-}
 
-public void removePlayerScore(int playerID) {
-    // Remove a player score from the scoreboard based on player ID
-    Score[] newPlayerScores = new Score[playerScores.length - 1];
-    int index = 0;
-    for (Score score : playerScores) {
-        if (score.getPlayerID() != playerID) {
-            newPlayerScores[index] = score;
-            index++;
-        }
+    /**
+     * Removes a player score from the scoreboard based on player ID.
+     *
+     * @param playerID The identifier of the player to be removed.
+     */
+    public void removePlayerScore(int playerID) {
+        Score[] newPlayerScores = Arrays.stream(playerScores)
+                .filter(score -> score.getPlayerID() != playerID)
+                .toArray(Score[]::new);
+        playerScores = newPlayerScores;
     }
-    playerScores = newPlayerScores;
-}
 
-public void clearScoreboard() {
-    // Clear all player scores from the scoreboard
-    playerScores = new Score[0];
-}
+    /**
+     * Clears all player scores from the scoreboard.
+     */
+    public void clearScoreboard() {
+        playerScores = new Score[0];
+    }
 
-public int getNumberOfPlayers() {
-    return playerScores.length;
-    // Return the number of players in the scoreboard
-}
+    /**
+     * Gets the number of players in the scoreboard.
+     *
+     * @return The number of players in the scoreboard.
+     */
+    public int getNumberOfPlayers() {
+        return playerScores.length;
+    }
 
-public String toString() {
+    /**
+     * Returns a string representation of the scoreboard.
+     *
+     * @return A string representation of the scoreboard.
+     */
+    public String toString() {
         return "Scoreboard{" + "playerScores=" + Arrays.toString(playerScores) + '}';
     }
-
 }
