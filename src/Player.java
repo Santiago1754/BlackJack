@@ -72,7 +72,7 @@ public class Player {
 	
 	public void clearHand()
 	{
-		hand.clear(); 
+		hand.clearHand(); 
 	}
 	public int calculatedHand()
 	{
