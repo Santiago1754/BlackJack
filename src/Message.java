@@ -4,11 +4,14 @@ import java.io.Serializable;
  * Message class for sending data between the server and client.
  * 
  * There are multiple types of messages. They are listed below:
- * TODO - ADD MESSAGE TYPES
+ * LOGIN - The client sends this message to the server
+ * REGISTER - The client sends this message to the server
+ * JOIN - The client sends this message to the server. Can join either as PLAYER or DEALER
  * 
  * The status of a message can be one of the following:
  * SENT - The message was sent successfully. The client sends this message to
  * the server.
+ * REQUEST - Client requests the server to perform an action.
  * ERROR - There was an error sending the message. The server sends this message
  * to the client.
  * SUCCESS - The message was received successfully. The server sends this
