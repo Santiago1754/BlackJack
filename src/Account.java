@@ -28,7 +28,7 @@ public class Account {
 	 * 
 	 * @return the username of the account
 	 */
-	public String getName() {
+	public String getUserID() {
 		return this.userID;
 	}
 

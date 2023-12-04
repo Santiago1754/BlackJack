@@ -70,7 +70,7 @@ public class Scoreboard {
      */
     public void removePlayerScore(int playerID) {
         Score[] newPlayerScores = Arrays.stream(playerScores)
-                .filter(score -> score.getPlayerID() != playerID)
+                .filter(score -> !score.getAccount().getUserID().equals(playerID))
                 .toArray(Score[]::new);
         playerScores = newPlayerScores;
     }

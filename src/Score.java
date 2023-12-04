@@ -3,6 +3,7 @@
  * lost.
  */
 public class Score {
+    Account account;
     private int wins;
     private int losses;
     private int fundsWonOrLost;
@@ -14,6 +15,7 @@ public class Score {
         this.wins = 0;
         this.losses = 0;
         this.fundsWonOrLost = 0;
+        this.account = null;
     }
 
     /**
@@ -23,7 +25,8 @@ public class Score {
      * @param losses
      * @param fundsWonOrLost
      */
-    public Score(int wins, int losses, int fundsWonOrLost) {
+    public Score(Account account, int wins, int losses, int fundsWonOrLost) {
+        this.account = account;
         this.wins = wins;
         this.losses = losses;
         this.fundsWonOrLost = fundsWonOrLost;
@@ -68,6 +71,10 @@ public class Score {
      */
     public void addLoss() {
         this.losses++;
+    }
+
+    public Account getAccount() {
+        return account;
     }
 
     /**
