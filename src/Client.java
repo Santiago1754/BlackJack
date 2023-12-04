@@ -201,9 +201,15 @@ public class Client {
                 }
 
                 // Check if the login was successful
-                if (response.getType().equals("PLAYER") && response.getStatus().equals("SUCCESS")) {
+                if ((response.getType().equals("JOIN")) && (response.getStatus().equals("SUCCESS"))) {
                     JOptionPane.showMessageDialog(mainMenuFrame, "Joining as player...");
                     mainMenuFrame.setVisible(false);
+                   
+//                    String betA = JOptionPane.showInputDialog("Bet Amount: "); 
+//                    int betAmount = Integer.parseInt(betA); 
+//                    System.out.println(betAmount); 
+                    
+                    
                     // try {
                     //     // TODO: Run dealer
                     // } catch (IOException e1) {

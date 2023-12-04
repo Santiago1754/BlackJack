@@ -210,10 +210,15 @@ public class Server {
                                 && message.getData().equals("DEALER")) { // Handle dealer message
                             // TODO: FINISH DEALER HANDLING
                             account.setDealer(new Dealer());
+                            
                         } else if (message.getType().equals("JOIN") && message.getStatus().equals("REQUEST")
                                 && message.getData().equals("PLAYER")) { // Handle player message
                             // TODO: FINISH PLAYER HANDLING
                             account.setPlayer(new Player());
+                            Message response = new Message("JOIN","SUCCESS",""); 
+                            objectOut.writeObject(response);
+                            objectOut.flush();                            
+                       
                         } else { // Return error message if the message type is not recognized
                             System.out.println("Received " + message.getType() + " message from client");
                             System.out.println("Client IP: " + clientSocket.getInetAddress().getHostAddress());
