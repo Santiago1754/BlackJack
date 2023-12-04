@@ -44,6 +44,7 @@ public class Server {
 
     /**
      * Add a socket to the list of sockets
+     * 
      * @param socket
      */
     private static void addSocket(Socket socket) {
@@ -53,6 +54,7 @@ public class Server {
 
     /**
      * Remove a socket from the list of sockets
+     * 
      * @param socket
      */
     private static void removeSocket(Socket socket) {
@@ -68,6 +70,7 @@ public class Server {
 
     /**
      * Add an account to the list of accounts
+     * 
      * @param account
      */
     private static void addAccount(Account account) {
@@ -77,6 +80,7 @@ public class Server {
 
     /**
      * Remove an account from the list of accounts
+     * 
      * @param account
      */
     private static void removeAccount(Account account) {
@@ -92,6 +96,7 @@ public class Server {
 
     /**
      * Add a game to the list of games
+     * 
      * @param game
      */
     private static void addGame(Game game) {
@@ -101,6 +106,7 @@ public class Server {
 
     /**
      * Remove a game from the list of games
+     * 
      * @param game
      */
     private static void removeGame(Game game) {
@@ -140,6 +146,7 @@ public class Server {
                         Message message = (Message) objectIn.readObject();
                         // Handle login message
                         if (message.getType().equals("LOGIN")) {
+                            boolean found = false;
                             System.out.println("Received LOGIN message from client");
                             System.out.println("Client IP: " + clientSocket.getInetAddress().getHostAddress());
                             File loginFile = new File("userList.txt");
@@ -159,14 +166,17 @@ public class Server {
                                     objectOut.flush();
                                     // Create a new Account object for the client
                                     account = new Account(username);
+                                    found = true;
                                     break;
                                 }
                             }
 
-                            // If the username and password don't match, send a failure message
-                            Message response = new Message("LOGIN", "ERROR", message.getData());
-                            objectOut.writeObject(response);
-                            objectOut.flush();
+                            if (!found) {
+                                // If the username and password don't match, send a failure message
+                                Message response = new Message("LOGIN", "ERROR", message.getData());
+                                objectOut.writeObject(response);
+                                objectOut.flush();
+                            }
 
                             loginScanner.close();
                         } else if (message.getType().equals("REGISTER")) {
@@ -210,15 +220,15 @@ public class Server {
                                 && message.getData().equals("DEALER")) { // Handle dealer message
                             // TODO: FINISH DEALER HANDLING
                             account.setDealer(new Dealer());
-                            
+
                         } else if (message.getType().equals("JOIN") && message.getStatus().equals("REQUEST")
                                 && message.getData().equals("PLAYER")) { // Handle player message
                             // TODO: FINISH PLAYER HANDLING
                             account.setPlayer(new Player());
-                            Message response = new Message("JOIN","SUCCESS",""); 
+                            Message response = new Message("JOIN", "SUCCESS", "");
                             objectOut.writeObject(response);
-                            objectOut.flush();                            
-                       
+                            objectOut.flush();
+
                         } else { // Return error message if the message type is not recognized
                             System.out.println("Received " + message.getType() + " message from client");
                             System.out.println("Client IP: " + clientSocket.getInetAddress().getHostAddress());

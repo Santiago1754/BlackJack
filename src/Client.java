@@ -171,6 +171,7 @@ public class Client {
                 } catch (ClassNotFoundException | IOException e1) {
                     e1.printStackTrace();
                 }
+                System.out.println(response);
 
                 // Check if the login was successful
                 if (response.getType().equals("JOIN") && response.getStatus().equals("SUCCESS")) {
@@ -199,9 +200,10 @@ public class Client {
                 } catch (ClassNotFoundException | IOException e1) {
                     e1.printStackTrace();
                 }
+                System.out.println(response);
 
                 // Check if the login was successful
-                if ((response.getType().equals("JOIN")) && (response.getStatus().equals("SUCCESS"))) {
+                if (response.getType().equals("JOIN") && response.getStatus().equals("SUCCESS")) {
                     JOptionPane.showMessageDialog(mainMenuFrame, "Joining as player...");
                     mainMenuFrame.setVisible(false);
                    
