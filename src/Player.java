@@ -86,6 +86,6 @@ public class Player {
 	
 	public String toString()
 	{
-		return "Player: " + account.getName() + "\n" + "Balance: " + this.funds; 
+		return "Player: " + account.getUserID() + "\n" + "Balance: " + this.funds; 
 	}
 }
