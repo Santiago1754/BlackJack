@@ -237,12 +237,15 @@ public class Server {
                             p.add(account.getUserID()); 
                             System.out.println(p);
                             
-                            
+      
                             
                             Message response = new Message("JOIN", "SUCCESS", "");
                             objectOut.writeObject(response);
-                            objectOut.writeObject(p);
                             objectOut.flush();
+                            
+                            //objectOut.reset();
+                            //objectOut.writeObject(p);
+                            //objectOut.flush();
                             
 
                         } else { // Return error message if the message type is not recognized

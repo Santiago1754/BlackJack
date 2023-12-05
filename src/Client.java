@@ -13,7 +13,7 @@ public class Client {
 
     private static ObjectOutputStream objectOut;
     private static ObjectInputStream objectIn;
-    // static ArrayList<String> p = new ArrayList<String>(); 
+    static ArrayList<String> playersList = new ArrayList<String>(); 
     
     public static void main(String[] args) throws IOException {
         final int PORT = 5000;
@@ -141,6 +141,7 @@ public class Client {
 
     private static void runMainMenu(Socket socket, String username) throws IOException {
         Account account = new Account(username);
+        playersList.add(username); 
         JFrame mainMenuFrame = new JFrame("BLACKJACK MAIN MENU");
         mainMenuFrame.setSize(300, 300);
         mainMenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -211,10 +212,16 @@ public class Client {
                     JOptionPane.showMessageDialog(mainMenuFrame, "Joining as player...");
                     mainMenuFrame.setVisible(false);
                    
-//                    String betA = JOptionPane.showInputDialog("Bet Amount: "); 
-//                    int betAmount = Integer.parseInt(betA); 
-//                    System.out.println(betAmount); 
+                    String betA = JOptionPane.showInputDialog("Bet Amount: "); 
+                    int betAmount = Integer.parseInt(betA); 
                     
+                    // System.out.println(betAmount); 
+                    
+                    Player p = new Player();
+                    
+                    p.setBet(betAmount);
+                    System.out.println(p.getName()); 
+//                    
                     
                     // try {
                     //     // TODO: Run dealer
