@@ -4,6 +4,7 @@
  */
 public class Dealer {
 
+    private Account account;
     private Hand hand;
 
     /**
@@ -12,6 +13,24 @@ public class Dealer {
     public Dealer() {
         hand = new Hand();
     }
+
+    /**
+     * Returns the account associated with the dealer.
+     *
+     * @return the account associated with the dealer
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+	 * Sets the account associated with the dealer.
+	 * 
+	 * @param account the account to be set
+	 */
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 
     /**
      * Checks if the dealer has a Blackjack.

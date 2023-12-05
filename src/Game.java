@@ -142,6 +142,15 @@ public class Game {
     }
 
     /**
+     * Returns number of players in the game.
+     * 
+     * @return number of players in the game
+     */
+    public int getNumPlayers() {
+        return numPlayers;
+    }
+
+    /**
      * Starts the game.
      */
     public void startGame() {
