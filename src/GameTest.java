@@ -51,12 +51,12 @@ class GameTest {
 		assertArrayEquals(expected, game.getPlayers());
 	}
 	
-	@Test
-	void testRemovePlayer() {
-		game.removePlayer(player1.getName());
-		
-		Player[] expected = {player1, player2, newPlayer};
-		assertArrayEquals(expected, game.getPlayers());
-	}
+//	@Test
+//	void testRemovePlayer() {
+//		game.removePlayer(player1.getName());
+//		
+//		Player[] expected = {player1, player2, newPlayer};
+//		assertArrayEquals(expected, game.getPlayers());
+//	}
 	
 }

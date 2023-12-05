@@ -206,7 +206,7 @@ public class Client {
                 if (response.getType().equals("JOIN") && response.getStatus().equals("SUCCESS")) {
                     JOptionPane.showMessageDialog(mainMenuFrame, "Joining as player...");
                     mainMenuFrame.setVisible(false);
-<<<<<<< HEAD
+
                    
                     String betA = JOptionPane.showInputDialog("Bet Amount: "); 
                     int betAmount = Integer.parseInt(betA); 
@@ -226,9 +226,9 @@ public class Client {
                     //     JOptionPane.showMessageDialog(mainMenuFrame, "Error running player");
                     //     e1.printStackTrace();
                     // }
-=======
+
                     runWaitingRoom(socket, account);
->>>>>>> fb24c311709b5b71967cb59e3c9da18666c5889d
+
                 } else {
                     JOptionPane.showMessageDialog(mainMenuFrame, "Joining as player failed");
                 }
