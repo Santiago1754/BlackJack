@@ -2,3 +2,7 @@ nikola
 123
 erika
 1234
+bob
+0000
+loop
+hole

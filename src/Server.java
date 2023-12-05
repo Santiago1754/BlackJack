@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Server {
@@ -19,6 +20,9 @@ public class Server {
     private static int numAccounts = 0;
     private static Socket[] sockets = new Socket[100];
     private static int numSockets = 0;
+    
+    static ArrayList<String> p = new ArrayList<String>(); 
+    
 
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -219,8 +223,7 @@ public class Server {
                         } else if (message.getType().equals("JOIN") && message.getStatus().equals("REQUEST")
                                 && message.getData().equals("DEALER")) { // Handle dealer message
                             account.setDealer(new Dealer());
-                            addGame(new Game(Integer.toString(numGames), new Player[7], account.getDealer(),
-                                    new Scoreboard(new Score[8]), new Deck[8]));
+                            addGame(new Game(Integer.toString(numGames), new Player[7], account.getDealer(),new Scoreboard(new Score[8]), new Deck[8]));
 
                             Message response = new Message("JOIN", "SUCCESS", "");
                             objectOut.writeObject(response);
@@ -229,10 +232,18 @@ public class Server {
                                 && message.getData().equals("PLAYER")) { // Handle player message
                             account.setPlayer(new Player());
                             games[numGames - 1].addPlayer(account.getPlayer());
-
+                            
+                            
+                            p.add(account.getUserID()); 
+                            System.out.println(p);
+                            
+                            
+                            
                             Message response = new Message("JOIN", "SUCCESS", "");
                             objectOut.writeObject(response);
+                            objectOut.writeObject(p);
                             objectOut.flush();
+                            
 
                         } else { // Return error message if the message type is not recognized
                             System.out.println("Received " + message.getType() + " message from client");

@@ -4,6 +4,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -11,6 +13,8 @@ public class Client {
 
     private static ObjectOutputStream objectOut;
     private static ObjectInputStream objectIn;
+    // static ArrayList<String> p = new ArrayList<String>(); 
+    
     public static void main(String[] args) throws IOException {
         final int PORT = 5000;
         String serverIP = "localhost";
