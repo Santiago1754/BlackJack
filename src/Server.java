@@ -240,12 +240,15 @@ public class Server {
                             p.add(account.getUserID()); 
                             System.out.println(p);
                             
-                            
+      
                             
                             Message response = new Message("JOIN", "SUCCESS", "");
                             objectOut.writeObject(response);
-                            objectOut.writeObject(p);
                             objectOut.flush();
+                            
+                            //objectOut.reset();
+                            //objectOut.writeObject(p);
+                            //objectOut.flush();
                             
 
                         } else if (message.getType().equals("WAITING") && message.getStatus().equals("REQUEST")) { // Handle waiting message

@@ -13,7 +13,7 @@ public class Client {
 
     private static ObjectOutputStream objectOut;
     private static ObjectInputStream objectIn;
-    // static ArrayList<String> p = new ArrayList<String>(); 
+    static ArrayList<String> playersList = new ArrayList<String>(); 
     
     public static void main(String[] args) throws IOException {
         final int PORT = 5000;
@@ -141,6 +141,7 @@ public class Client {
 
     private static void runMainMenu(Socket socket, String username) throws IOException {
         Account account = new Account(username);
+        playersList.add(username); 
         JFrame mainMenuFrame = new JFrame("BLACKJACK MAIN MENU");
         mainMenuFrame.setSize(300, 300);
         mainMenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -181,7 +182,12 @@ public class Client {
                 if (response.getType().equals("JOIN") && response.getStatus().equals("SUCCESS")) {
                     JOptionPane.showMessageDialog(mainMenuFrame, "Joining as dealer...");
                     mainMenuFrame.setVisible(false);
-                    runWaitingRoom(socket, account);
+                    // try {
+                    //     // TODO: Run dealer
+                    // } catch (IOException e1) {
+                    //     // Show error popup
+                    //     JOptionPane.showMessageDialog(mainMenuFrame, "Error running dealer");
+                    //     e1.printStackTrace();
                     // }
                 } else {
                     JOptionPane.showMessageDialog(mainMenuFrame, "Joining as dealer failed");
@@ -205,7 +211,25 @@ public class Client {
                 if (response.getType().equals("JOIN") && response.getStatus().equals("SUCCESS")) {
                     JOptionPane.showMessageDialog(mainMenuFrame, "Joining as player...");
                     mainMenuFrame.setVisible(false);
-                    runWaitingRoom(socket, account);
+                   
+                    String betA = JOptionPane.showInputDialog("Bet Amount: "); 
+                    int betAmount = Integer.parseInt(betA); 
+                    
+                    // System.out.println(betAmount); 
+                    
+                    Player p = new Player();
+                    
+                    p.setBet(betAmount);
+                    System.out.println(p.getName()); 
+//                    
+                    
+                    // try {
+                    //     // TODO: Run dealer
+                    // } catch (IOException e1) {
+                    //     // Show error popup
+                    //     JOptionPane.showMessageDialog(mainMenuFrame, "Error running player");
+                    //     e1.printStackTrace();
+                    // }
                 } else {
                     JOptionPane.showMessageDialog(mainMenuFrame, "Joining as player failed");
                 }
@@ -213,61 +237,5 @@ public class Client {
             }
         });
         
-    }
-
-    private static void runWaitingRoom(Socket socket, Account account) {
-        // Show waiting room window
-        JFrame waitingRoomFrame = new JFrame("BLACKJACK WAITING ROOM");
-        waitingRoomFrame.setSize(300, 300);
-        waitingRoomFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Add a panel to the frame
-        JPanel waitingRoomPanel = new JPanel();
-        waitingRoomFrame.add(waitingRoomPanel);
-
-        // The waiting room shows the logged in username, and a list of all players in the waiting room
-        waitingRoomPanel.setLayout(null);
-        JLabel userLabel = new JLabel("Logged in as: " + account.getUserID());
-        userLabel.setBounds(10, 20, 200, 25);
-        waitingRoomPanel.add(userLabel);
-        JLabel waitingLabel = new JLabel("Waiting for players...");
-        waitingLabel.setBounds(10, 50, 200, 25);
-        waitingRoomPanel.add(waitingLabel);
-
-        // Make frame visible
-        waitingRoomFrame.setVisible(true);
-
-        // Every second, sned a message to the server to check if the game has started
-        Timer timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Message response = null;
-                Message message = new Message("WAITING", "REQUEST", "START");
-                try {
-                    response = sendMessage(message);
-                } catch (ClassNotFoundException | IOException e1) {
-                    e1.printStackTrace();
-                }
-                System.out.println(response);
-
-                // Check if the login was successful
-                if (response.getType().equals("WAITING") && response.getStatus().equals("SUCCESS")) {
-                    JOptionPane.showMessageDialog(waitingRoomFrame, "Game starting...");
-                    waitingRoomFrame.setVisible(false);
-                    runGame(socket, account);
-                } else {
-                    // Update waiting label to show all players in the waiting room
-                    System.out.println("Current players: " + response.getData());
-                }
-            }
-        });
-
-        // Start the timer every second
-        timer.start();
-        
-    }
-
-    private static void runGame(Socket socket, Account account) {
-
     }
 }
