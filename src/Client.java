@@ -151,7 +151,7 @@ public class Client {
         userLabel.setBounds(10, 20, 200, 25);
         mainMenuPanel.add(userLabel);
         JButton dealerButton = new JButton("DEALER");
-        dealerButton.setBounds(10, 50, 80, 25);
+        dealerButton.setBounds(10, 50, 100, 25);
         mainMenuPanel.add(dealerButton);
         JButton playerButton = new JButton("PLAYER");
         playerButton.setBounds(100, 50, 100, 25);
