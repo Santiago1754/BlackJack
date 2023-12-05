@@ -21,6 +21,24 @@ public class Player {
 	{
 		return this.funds; 
 	}
+
+	/**
+	 * Returns the account associated with the player.
+	 * 
+	 * @return the account associated with the player
+	 */
+	public Account getAccount() {
+		return account;
+	}
+
+	/**
+	 * Sets the account associated with the player.
+	 * 
+	 * @param account the account to be set
+	 */
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 	
 	// if the player wins, but not BlackJack, they get to keep their bets 
 	// Bets will restart to 0

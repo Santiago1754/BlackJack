@@ -219,6 +219,7 @@ public class Server {
                         } else if (message.getType().equals("JOIN") && message.getStatus().equals("REQUEST")
                                 && message.getData().equals("DEALER")) { // Handle dealer message
                             account.setDealer(new Dealer());
+                            account.getDealer().setAccount(account);
                             addGame(new Game(Integer.toString(numGames), new Player[7], account.getDealer(),
                                     new Scoreboard(new Score[8]), new Deck[8]));
 
@@ -228,12 +229,20 @@ public class Server {
                         } else if (message.getType().equals("JOIN") && message.getStatus().equals("REQUEST")
                                 && message.getData().equals("PLAYER")) { // Handle player message
                             account.setPlayer(new Player());
+                            account.getPlayer().setAccount(account);
                             games[numGames - 1].addPlayer(account.getPlayer());
 
                             Message response = new Message("JOIN", "SUCCESS", "");
                             objectOut.writeObject(response);
                             objectOut.flush();
 
+                        } else if (message.getType().equals("WAITING") && message.getStatus().equals("REQUEST")) { // Handle waiting message
+                            // Respond by sending a message with its data being the list of player useIDs
+                            String playerIDs = games[numGames - 1].getDealer().getAccount().getUserID() + "\n";
+                            for (int i = 0; i < games[numGames - 1].getNumPlayers(); i++) {
+                                playerIDs += games[numGames - 1].getPlayers()[i].getAccount().getUserID() + "\n";
+                            }
+                            Message response = new Message("WAITING", "UPDATE", playerIDs);
                         } else { // Return error message if the message type is not recognized
                             System.out.println("Received " + message.getType() + " message from client");
                             System.out.println("Client IP: " + clientSocket.getInetAddress().getHostAddress());
