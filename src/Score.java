@@ -98,6 +98,6 @@ public class Score {
      */
     @Override
     public String toString() {
-        return "Wins: " + wins + "\nLosses: " + losses + "\nFunds Won or Lost: " + fundsWonOrLost + "\n";
+        return "Wins: " + wins + "\nLosses: " + losses + "\nFunds Won or Lost: " + fundsWonOrLost;
     }
 }
