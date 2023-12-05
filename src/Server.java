@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Server {
@@ -19,6 +20,9 @@ public class Server {
     private static int numAccounts = 0;
     private static Socket[] sockets = new Socket[100];
     private static int numSockets = 0;
+    
+    static ArrayList<String> p = new ArrayList<String>(); 
+    
 
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -231,10 +235,18 @@ public class Server {
                             account.setPlayer(new Player());
                             account.getPlayer().setAccount(account);
                             games[numGames - 1].addPlayer(account.getPlayer());
-
+                            
+                            
+                            p.add(account.getUserID()); 
+                            System.out.println(p);
+                            
+                            
+                            
                             Message response = new Message("JOIN", "SUCCESS", "");
                             objectOut.writeObject(response);
+                            objectOut.writeObject(p);
                             objectOut.flush();
+                            
 
                         } else if (message.getType().equals("WAITING") && message.getStatus().equals("REQUEST")) { // Handle waiting message
                             // Respond by sending a message with its data being the list of player useIDs
