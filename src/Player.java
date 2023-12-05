@@ -12,6 +12,7 @@ public class Player {
 		
 		// declare a set of Hand class
 		hand = new Hand(); 
+		account = new Account(""); 
 		
 	}
 	
@@ -79,13 +80,13 @@ public class Player {
 		return hand.getHandTotal(); 
 	}
 	
-	public Account getName()
+	public String getName()
 	{
-		return this.getName(); 
+		return this.account.getUserID(); 
 	}
 	
 	public String toString()
 	{
-		return "Player: " + account.getUserID() + "\n" + "Balance: " + this.funds; 
+		return "Player: " + this.getName() + "\n" + "Balance: " + this.funds; 
 	}
 }
