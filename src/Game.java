@@ -5,6 +5,7 @@
 public class Game {
     private String id;
     private Player[] players;
+    private int numPlayers;
     private Dealer dealer;
     private Scoreboard scoreboard;
     private Deck[] decks;
@@ -12,11 +13,11 @@ public class Game {
     /**
      * Constructs a Game object with the specified parameters.
      *
-     * @param id        the ID of the game
-     * @param players   an array of players participating in the game
-     * @param dealer    the dealer of the game
-     * @param scoreboard    the scoreboard for tracking scores
-     * @param decks     an array of decks used in the game
+     * @param id         the ID of the game
+     * @param players    an array of players participating in the game
+     * @param dealer     the dealer of the game
+     * @param scoreboard the scoreboard for tracking scores
+     * @param decks      an array of decks used in the game
      */
     public Game(String id, Player[] players, Dealer dealer, Scoreboard scoreboard, Deck[] decks) {
         this.id = id;
@@ -131,6 +132,16 @@ public class Game {
     }
 
     /**
+     * Adds a player to the game.
+     *
+     * @param player the player to be added
+     */
+    public void addPlayer(Player player) {
+        players[numPlayers] = player;
+        numPlayers++;
+    }
+
+    /**
      * Starts the game.
      */
     public void startGame() {
@@ -150,6 +161,7 @@ public class Game {
      * @return a string representation of the Game object
      */
     public String toString() {
-        return "Game: " + id + "\n" + "Players: " + players + "\n" + "Dealer: " + dealer + "\n" + "Scoreboard: " + scoreboard + "\n" + "Decks: " + decks;
+        return "Game: " + id + "\n" + "Players: " + players + "\n" + "Dealer: " + dealer + "\n" + "Scoreboard: "
+                + scoreboard + "\n" + "Decks: " + decks;
     }
 }

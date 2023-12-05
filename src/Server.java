@@ -218,13 +218,18 @@ public class Server {
                             loginScanner.close();
                         } else if (message.getType().equals("JOIN") && message.getStatus().equals("REQUEST")
                                 && message.getData().equals("DEALER")) { // Handle dealer message
-                            // TODO: FINISH DEALER HANDLING
                             account.setDealer(new Dealer());
+                            addGame(new Game(Integer.toString(numGames), new Player[7], account.getDealer(),
+                                    new Scoreboard(new Score[8]), new Deck[8]));
 
+                            Message response = new Message("JOIN", "SUCCESS", "");
+                            objectOut.writeObject(response);
+                            objectOut.flush();
                         } else if (message.getType().equals("JOIN") && message.getStatus().equals("REQUEST")
                                 && message.getData().equals("PLAYER")) { // Handle player message
-                            // TODO: FINISH PLAYER HANDLING
                             account.setPlayer(new Player());
+                            games[numGames - 1].addPlayer(account.getPlayer());
+
                             Message response = new Message("JOIN", "SUCCESS", "");
                             objectOut.writeObject(response);
                             objectOut.flush();
